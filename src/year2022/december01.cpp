@@ -21,9 +21,8 @@ std::vector<size_t> highest(const std::vector<size_t> elements, const size_t &am
         return highest;
     }
 
-    while (highest.size() > amount) {
-        highest.erase(std::find(highest.begin(), highest.end(), vectorMin(highest)));
-    }
+    std::sort(highest.rbegin(), highest.rend());
+    highest.erase(highest.begin() + amount, highest.end());
 
     return highest;
 }

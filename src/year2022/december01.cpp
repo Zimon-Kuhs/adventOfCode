@@ -3,6 +3,8 @@
 #include "files.hpp"
 #include "log.hpp"
 
+#define MAX_ELVES
+
 using namespace adventOfCode;
 
 /**

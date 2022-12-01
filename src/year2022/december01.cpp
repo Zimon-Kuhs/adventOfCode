@@ -10,25 +10,19 @@
 using namespace adventOfCode;
 
 std::vector<size_t> highest(const std::vector<size_t> elements, const size_t &amount) {
-    const size_t numberOfElements = elements.size();
 
+    const size_t numberOfElements = elements.size();
     if (amount > numberOfElements) {
         throw std::runtime_error("Amount too high: " + std::to_string(amount));
-    } else if (amount == numberOfElements) {
-        return std::vector<size_t>(elements);
     }
 
-    std::vector<size_t> highest = {};
-    for (const size_t &element : elements) {
-        if (highest.size() < amount) {
-            highest.push_back(element);
-        } else {
-            const size_t minimum = vectorMin(highest);
-            if (element > minimum) {
-                highest.erase(std::find(highest.begin(), highest.end(), minimum));
-                highest.push_back(element);
-            }
-        }
+    std::vector<size_t> highest = std::vector<size_t>(elements);
+    if (amount == numberOfElements) {
+        return highest;
+    }
+
+    while (highest.size() > amount) {
+        highest.erase(std::find(highest.begin(), highest.end(), vectorMin(highest)));
     }
 
     return highest;

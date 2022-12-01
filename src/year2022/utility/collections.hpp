@@ -26,7 +26,7 @@ N vectorMin(const std::vector<N> &vector) {
  *  @return         The `amount` highest number in `elements`.
  */
 template <typename N>
-std::vector<N> vectorHighest(const std::vector<N> elements, const size_t &amount) {
+std::vector<N> vectorHighest(const std::vector<N> elements, const size_t &amount = 1) {
 
     const size_t numberOfElements = elements.size();
     if (amount > numberOfElements) {

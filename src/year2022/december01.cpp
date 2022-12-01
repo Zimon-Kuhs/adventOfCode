@@ -1,5 +1,3 @@
-#include <algorithm>
-
 #include "year2022.hpp"
 #include "collections.hpp"
 #include "files.hpp"
@@ -8,24 +6,6 @@
 #define MAX_ELVES 3
 
 using namespace adventOfCode;
-
-std::vector<size_t> highest(const std::vector<size_t> elements, const size_t &amount) {
-
-    const size_t numberOfElements = elements.size();
-    if (amount > numberOfElements) {
-        throw std::runtime_error("Amount too high: " + std::to_string(amount));
-    }
-
-    std::vector<size_t> highest = std::vector<size_t>(elements);
-    if (amount == numberOfElements) {
-        return highest;
-    }
-
-    std::sort(highest.rbegin(), highest.rend());
-    highest.erase(highest.begin() + amount, highest.end());
-
-    return highest;
-}
 
 /**
  *  Solves the 2022-12-01 problem.
@@ -57,6 +37,6 @@ std::string Year2022::december01() const {
         sums.push_back(vectorSum(food));
     }
 
-    return std::to_string(vectorSum(highest(sums, MAX_ELVES)));
+    return std::to_string(vectorSum(vectorHighest(sums, MAX_ELVES)));
 }
 

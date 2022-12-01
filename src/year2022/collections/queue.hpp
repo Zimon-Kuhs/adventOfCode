@@ -1,6 +1,7 @@
 #ifndef __ADVENT_OF_CODE_QUEUE_HPP__
 #define __ADVENT_OF_CODE_QUEUE_HPP__
 
+#include <limits>
 #include <vector>
 
 namespace adventOfCode {
@@ -17,7 +18,7 @@ class Queue {
          *  @param initialElements  The initial elements of the queue.
          *  @param maxLength        The length of the queue.
          */
-        Queue(const std::vector<T> &intialElements, const size_t maxLength = initialElements.size());
+        Queue(const std::vector<T> &intialElements, const size_t maxLength = SIZE_MAX);
 
         /**
          *  @param element  The element to add to the queue.

@@ -1,3 +1,6 @@
+#include <stdexcept>
+#include <string>
+
 #include "queue.hpp"
 
 using namespace adventOfCode;
@@ -7,7 +10,7 @@ Queue<T>::Queue() : Queue<T>({}, 0) {}
 
 template <typename T>
 Queue<T>::Queue(const std::vector<T> &intialElements, const size_t maxLength) :
-                elements(initialElements), maxLength(maxLength == 0 ? std::numeric_limits<size_t>::max : maxLength) {}
+                elements(intialElements), maxLength(maxLength == 0 ? SIZE_MAX : maxLength) {}
 
 template <typename T>
 void Queue<T>::add(const T &element) {
@@ -20,7 +23,7 @@ void Queue<T>::add(const T &element) {
 template <typename T>
 T Queue<T>::at(const size_t &index) const {
     if (index >= elements.size()) {
-        throw std::runtime_error(std::to_string(index) " is out of bounds for queue.");
+        throw std::runtime_error(std::to_string(index) + " is out of bounds for queue.");
     }
     return elements.at(index);
 }

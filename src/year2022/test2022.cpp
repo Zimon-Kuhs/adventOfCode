@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     const Year2022 year2022 = Year2022();
 
     echo("Starting tests.");
-    doTest("01", year2022.december01(), "68467");
+    doTest("01", year2022.december01(), "203420");
     doTest("02", year2022.december02(), "TBI");
     doTest("03", year2022.december03(), "TBI");
     doTest("04", year2022.december04(), "TBI");

@@ -15,6 +15,10 @@ INCLUDE_FILES = $(addprefix -I, $(INCLUDES))
 
 ####   Compiler flags.   ####
 
+ifeq ($(OS),Windows_NT)
+    CPPFLAGS += -lstdc++fs
+endif
+
 CPPFLAGS += -pedantic \
             -std=c++17 \
             -O2 \

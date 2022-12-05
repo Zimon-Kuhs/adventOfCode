@@ -1,7 +1,6 @@
 #include "year2022.hpp"
 #include "collections.hpp"
 #include "files.hpp"
-#include "log.hpp"
 
 #define MAX_ELVES 3
 

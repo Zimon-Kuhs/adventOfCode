@@ -1,9 +1,11 @@
 #include <algorithm>
 #include <map>
+#include <set>
 #include <vector>
 #include <utility>
 
 #include "year2022.hpp"
+#include "collections.hpp"
 #include "files.hpp"
 #include "log.hpp"
 #include "strings.hpp"
@@ -33,31 +35,33 @@ size_t charPoints(const char &character) {
  *  @date   2022-12-03
  */
 std::string Year2022::december03() const {
-    std::vector<std::pair<std::string, std::string>> rucksacks = {};
-    for (const std::string &line : fileAsLines(std::filesystem::path("input/03.txt"), false)) {
-        const std::vector<std::string> parts = divideString(line, 2);
-        rucksacks.push_back({ parts.at(0), parts.at(1) });
-    }
+    const size_t groupSize = 3;
+    const std::vector<std::vector<std::string>> groups =
+        subVectors(fileAsLines(std::filesystem::path("input/03.txt"), false), groupSize);
 
-    std::vector<char> commons = {};
-    for (const std::pair<std::string, std::string> &entry : rucksacks) {
-        for (const char &character : entry.first) {
-            if (entry.second.find(character) != std::string::npos) {
-                commons.push_back(character);
+    std::vector<char> badges = {};
+    for (const std::vector<std::string> &group : groups) {
+        std::map<char, size_t> amounts = {};
+
+        for (const std::string &item : group) {
+            for (const char &character : charSet(item)) {
+                if (amounts.find(character) == amounts.end()) {
+                    amounts[character] = 0;
+                }
+                amounts[character] += 1;
+            }
+        }
+
+        for (const std::pair<char, size_t> &entry : amounts) {
+            if (entry.second == groupSize) {
+                badges.push_back(entry.first);
                 break;
             }
         }
     }
 
-    const size_t &expectedSize = rucksacks.size();
-    const size_t &actualSize = commons.size();
-    if (expectedSize != actualSize) {
-        throw std::runtime_error("Error parsing common characters; expected found: " + std::to_string(expectedSize) +
-                                 " actual found: " + std::to_string(actualSize));
-    }
-
     size_t points = 0;
-    for (const char &character : commons) {
+    for (const char &character : badges) {
         points += charPoints(character);
     }
 

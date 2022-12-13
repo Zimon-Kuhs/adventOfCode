@@ -1,10 +1,17 @@
 #ifndef __ADVENT_OF_CODE_STRINGS_HPP__
 #define __ADVENT_OF_CODE_STRINGS_HPP__
 
+#include <set>
 #include <string>
 #include <vector>
 
 namespace adventOfCode {
+
+/**
+ *  @param string   The string which characters to put in a set.
+ *  @return         A set of all the characters in the string.
+ */
+std::set<char> charSet(const std::string &string);
 
 /**
  *  Splits a string into a number of parts, biased towards leftmost segments.

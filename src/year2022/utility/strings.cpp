@@ -5,6 +5,14 @@
 
 using namespace adventOfCode;
 
+std::set<char> adventOfCode::charSet(const std::string &string) {
+    std::set<char> result = {};
+    for (const char &character : string) {
+        result.insert(character);
+    }
+    return result;
+}
+
 std::vector<std::string> adventOfCode::divideString(const std::string &string, const size_t &parts) {
     const size_t &size = string.length();
 

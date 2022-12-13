@@ -6,6 +6,7 @@
 #include "year2022.hpp"
 #include "files.hpp"
 #include "log.hpp"
+#include "strings.hpp"
 
 using namespace adventOfCode;
 
@@ -34,8 +35,8 @@ size_t charPoints(const char &character) {
 std::string Year2022::december03() const {
     std::vector<std::pair<std::string, std::string>> rucksacks = {};
     for (const std::string &line : fileAsLines(std::filesystem::path("input/03.txt"), false)) {
-        const size_t midPoint = line.length() / 2;
-        rucksacks.push_back({ line.substr(0, midPoint), line.substr(midPoint) });
+        const std::vector<std::string> parts = divideString(line, 2);
+        rucksacks.push_back({ parts.at(0), parts.at(1) });
     }
 
     std::vector<char> commons = {};

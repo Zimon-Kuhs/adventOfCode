@@ -58,7 +58,8 @@ elif [ "$1" = "2020" ]; then
 elif [ "$1" = "2021" ]; then
     cd .. && python3 test/test2021.py
 elif [ "$1" = "2022" ]; then
-    cd "../src/year2022" && make && ./adventOfCode && sudo rm -f ./adventOfCode
+    cd "../src/year2022" && make && ./adventOfCode
+    sudo rm -f ./adventOfCode
 elif [ "$1" = "2023" ]; then
     fail "Year $1 not implemented."
 else

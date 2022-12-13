@@ -27,7 +27,7 @@ void echo(const std::vector<T> &lines) {
 template <typename K, typename V>
 void echo(const std::map<K, V> &map) {
     const std::string indent = "    ";
-    std::vector<std::string> lines = {"{"};
+    std::vector<std::string> lines = { "{" };
 
     for (const std::pair<K, V> &entry: map) {
         std::stringstream line = indent;
@@ -40,6 +40,8 @@ void echo(const std::map<K, V> &map) {
         echo(line);
     }
 }
+
+#define println() echo(std::string(__FILE__) + "#" + std::to_string(__LINE__));
 
 }   // namespace adventOfCode
 

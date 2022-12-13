@@ -15,6 +15,12 @@ enum Move {
     Scissors
 };
 
+enum Result {
+    Draw,
+    Loss,
+    Win
+};
+
 size_t points(Move move, Move opponent) {
     const size_t base = std::map<Move, size_t>{
         { Paper,    2 },
@@ -42,6 +48,24 @@ size_t points(Move move, Move opponent) {
     return base + outcome;
 }
 
+Move rig(Result outcome, Move opponent) {
+    if (outcome == Draw) {
+        return opponent;
+    }
+
+    if (outcome == Loss) {
+        if (opponent == Scissors) {
+            return Paper;
+        }
+        return static_cast<Move>(opponent + 1);
+    }
+
+    if (opponent == Paper) {
+        return Scissors;
+    }
+    return static_cast<Move>(opponent - 1);
+}
+
 /**
  *  Solves the 2022-12-02 problem.
 
@@ -54,15 +78,24 @@ std::string Year2022::december02() const {
         { "B", { "Paper",       Paper } },
         { "C", { "Scissors",    Scissors } },
     };
-    const std::map<std::string, std::pair<std::string, Move>> playerMoves = {
-        { "X", opponentMoves.at("A") },
-        { "Y", opponentMoves.at("B") },
-        { "Z", opponentMoves.at("C") }
+    const std::map<std::string, std::pair<std::string, Result>> results = {
+        { "X", { "Loss",    Loss } },
+        { "Y", { "Draw",    Draw } },
+        { "Z", { "Win",     Win } },
     };
 
-    unsigned long long result = 0;
+    std::vector<Move> opponent = {};
+    std::vector<Move> player = {};
+
     for (const std::vector<std::string> &line : fileAsMatrix(std::filesystem::path("input/02.txt"), false)) {
-        result += points(playerMoves.at(line.at(1)).second, opponentMoves.at(line.at(0)).second);
+        const Move &move = opponentMoves.at(line.at(0)).second;
+        opponent.push_back(move);
+        player.push_back(rig(results.at(line.at(1)).second, move));
+    }
+
+    unsigned long long result = 0;
+    for (size_t i = 0; i < opponent.size(); ++i) {
+        result += points(player.at(i), opponent.at(i));
     }
 
     return std::to_string(result);

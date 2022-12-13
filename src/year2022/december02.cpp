@@ -21,6 +21,11 @@ enum Result {
     Win
 };
 
+/**
+ *  @param move     The move picked by the player.
+ *  @param opponent The move picked by the opponent.
+ *  @return         The points awarded to the player.
+ */
 size_t points(Move move, Move opponent) {
     const size_t base = std::map<Move, size_t>{
         { Paper,    2 },
@@ -48,6 +53,11 @@ size_t points(Move move, Move opponent) {
     return base + outcome;
 }
 
+/**
+ *  @param outcome  The desired
+ *  @param opponent The move picked by the opponent.
+ *  @return         The move the player should pick to get the desired outcome.
+ */
 Move rig(Result outcome, Move opponent) {
     if (outcome == Draw) {
         return opponent;

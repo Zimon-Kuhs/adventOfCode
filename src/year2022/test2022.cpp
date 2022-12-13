@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
 
     echo("Starting tests.");
     doTest("01", year2022.december01(), "203420");
-    doTest("02", year2022.december02(), "TBI");
+    doTest("02", year2022.december02(), "12767");
     doTest("03", year2022.december03(), "TBI");
     doTest("04", year2022.december04(), "TBI");
     doTest("05", year2022.december05(), "TBI");

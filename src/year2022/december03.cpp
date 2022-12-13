@@ -9,14 +9,20 @@
 
 using namespace adventOfCode;
 
+/**
+ *  @param character    The character which points to calculate.
+ *  @return             The arbitrary amount of points for the character.
+ */
 size_t charPoints(const char &character) {
     size_t ascii = int(character);
 
-    if (ascii < 65 || ascii > 122 || (ascii > 90 && ascii < 97)) {
-        throw std::runtime_error("Not an alphabetic character: '" + std::to_string(character) + "'");
+    if (std::isupper(character)) {
+        return ascii - 38;
+    } else if (std::islower(character)) {
+        return ascii - 96;
     }
 
-    return ascii > 90 ? (ascii - 96) : (ascii - 38);
+    throw std::runtime_error("Not an alphabetic character: '" + std::to_string(character) + "'");
 }
 
 /**

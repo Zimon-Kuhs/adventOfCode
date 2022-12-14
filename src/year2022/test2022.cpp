@@ -5,9 +5,12 @@
 
 using namespace adventOfCode;
 
+static size_t failures = 0;
+
 void doTest(const std::string &date, const std::string &actual, const std::string &expected) {
     if (actual != expected) {
         echo("[" + date + "] " + actual + " != " + expected + ".");
+        ++failures;
     }
 }
 
@@ -28,7 +31,7 @@ int main(int argc, char **argv) {
     doTest("02", year2022.december02(), "12767");
     doTest("03", year2022.december03(), "2616");
     doTest("04", year2022.december04(), "854");
-    doTest("05", year2022.december05(), "TBI");
+    doTest("05", year2022.december05(), "LJSVLTWQM");
     doTest("06", year2022.december06(), "TBI");
     doTest("07", year2022.december07(), "TBI");
     doTest("08", year2022.december08(), "TBI");
@@ -51,5 +54,14 @@ int main(int argc, char **argv) {
     doTest("25", year2022.december25(), "TBI");
     echo("Tests done.");
 
-    return 0;
+    const bool success = failures == 0;
+    if (!success) {
+        const bool several = failures > 1;
+        std::string verb = several ? "were" : "was";
+        std::string plural = several ? "s" : "";
+
+        echo("There " + verb + " " + std::to_string(failures) + " failure" + plural + ".");
+    }
+
+    return success ? 0 : 1;
 }

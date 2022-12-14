@@ -25,6 +25,14 @@ std::set<char> charSet(const std::string &string);
 std::vector<std::string> divideString(const std::string &string, const size_t &parts);
 
 /**
+ *  Read all numbers from a string.
+ *
+ *  @param string   The string to read from.
+ *  @return         A vector containing the numbers that exist in `string`.
+ */
+std::vector<size_t> parseNumbers(const std::string &string);
+
+/**
  *  @param string       The string to split.
  *  @param delimiter    The delimiter to split on.
  *  @return             A vector containing each substring in `string` separated by `delimiter`.

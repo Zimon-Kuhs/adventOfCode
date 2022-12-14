@@ -37,6 +37,25 @@ std::vector<std::string> adventOfCode::divideString(const std::string &string, c
     return result;
 }
 
+std::vector<size_t> adventOfCode::parseNumbers(const std::string &string) {
+    std::stringstream stream;
+    std::vector<size_t> results = {};
+    stream << string;
+
+    std::string temp = "";
+    size_t result = 0;
+    while (!stream.eof()) {
+        stream >> temp;
+        if (std::stringstream(temp) >> result) {
+            results.push_back(result);
+        }
+
+        temp = "";
+    }
+
+    return results;
+}
+
 std::vector<std::string> adventOfCode::splitString(const std::string &string, const char &delimiter) {
     std::vector<std::string> tokens;
     std::stringstream mySstream(string);

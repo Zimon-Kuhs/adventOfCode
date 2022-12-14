@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <stack>
 #include <string>
 #include <vector>
 
@@ -12,17 +13,7 @@ namespace adventOfCode {
 void echo(const std::string &message);
 
 template <typename T>
-void echo(const std::vector<T> &lines) {
-    std::stringstream result;
-    result << "{ ";
-    std::string prefix = "";
-    for (const T &element : lines) {
-        result << prefix << element;
-        prefix = ", ";
-    }
-    result << " }";
-    echo(result.str());
-}
+void echo(const std::vector<T> &lines);
 
 template <typename K, typename V>
 void echo(const std::map<K, V> &map) {
@@ -39,6 +30,35 @@ void echo(const std::map<K, V> &map) {
     for (const std::string &line : lines) {
         echo(line);
     }
+}
+
+template <typename T>
+void echo(const std::stack<T> &stack) {
+    std::stack<T> copy = std::stack<T>(stack);
+
+    std::stringstream string;
+    std::string prefix = "";
+
+    while (!copy.empty()) {
+        string << prefix << copy.top();
+        copy.pop();
+        prefix = "\n";
+    }
+
+    echo(string.str());
+}
+
+template <typename T>
+void echo(const std::vector<T> &lines) {
+    std::stringstream result;
+    result << "{ ";
+    std::string prefix = "";
+    for (const T &element : lines) {
+        result << prefix << element;
+        prefix = ", ";
+    }
+    result << " }";
+    echo(result.str());
 }
 
 #define println() echo(std::string(__FILE__) + "#" + std::to_string(__LINE__));

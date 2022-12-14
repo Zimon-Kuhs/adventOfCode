@@ -84,9 +84,14 @@ std::string Year2022::december05() const {
         std::stack<char> &source = stacks.at(move.from - 1);
         std::stack<char> &target = stacks.at(move.to - 1);
 
+        std::stack<char> crates = {};
         for (size_t i = 0; i < move.amount; ++i) {
-            target.push(source.top());
+            crates.push(source.top());
             source.pop();
+        }
+        while (!crates.empty()) {
+            target.push(crates.top());
+            crates.pop();
         }
     }
 

@@ -76,10 +76,6 @@ std::pair<std::vector<std::stack<char>>, std::vector<StackMove>> parseInput() {
  *  @date   2022-12-05
  */
 std::string Year2022::december05() const {
-    if (exempt("05")) {
-        return "";
-    }
-
     const std::pair<std::vector<std::stack<char>>, std::vector<StackMove>> input = parseInput();
     std::vector<std::stack<char>> stacks = input.first;
     std::vector<StackMove> moves = input.second;

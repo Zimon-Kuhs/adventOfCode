@@ -28,10 +28,6 @@ bool intervalsIntersect(const std::pair<size_t, size_t> &interval, const std::pa
  *  @date   2022-12-04
  */
 std::string Year2022::december04() const {
-    if (exempt("04")) {
-        return "";
-    }
-
     const std::vector<std::string> lines = fileAsLines(std::filesystem::path("input/04.txt"), false);
     std::vector<std::pair<std::pair<size_t, size_t>, std::pair<size_t, size_t>>> numbers = {};
 

@@ -8,13 +8,12 @@ using namespace adventOfCode;
 static size_t failures = 0;
 
 void doTest(const std::string &date, const std::string &actual, const std::string &expected) {
-    if (actual == "") {
-        echo("[" + date + "] Skipped.");
-    } else if (actual != expected) {
+    if (actual != expected) {
         echo("[" + date + "] " + actual + " != " + expected + ".");
         ++failures;
     }
 }
+
 /*
  *  Tests the problems for year 2022.
  *
@@ -26,7 +25,7 @@ int main(int argc, char **argv) {
     UNUSED(argv);
 
     std::vector<std::string> arguments = {};
-    arguments.assign(argv + 1, argv + argc);
+    arguments.assign(argv, argv + argc);
     const Year2022 year2022 = Year2022(arguments);
 
     echo("Starting tests.");
@@ -62,6 +61,7 @@ int main(int argc, char **argv) {
         const bool several = failures > 1;
         std::string verb = several ? "were" : "was";
         std::string plural = several ? "s" : "";
+
         echo("There " + verb + " " + std::to_string(failures) + " failure" + plural + ".");
     }
 

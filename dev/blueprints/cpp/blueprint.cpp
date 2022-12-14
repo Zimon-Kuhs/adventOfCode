@@ -14,5 +14,9 @@ using namespace adventOfCode;
  *  @date   YYYY-12-DD
  */
 std::string YearYYYY::decemberDD() const {
+    if (exempt("DD")) {
+        return "";
+    }
+
     return "TBI";
 }

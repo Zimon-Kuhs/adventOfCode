@@ -14,6 +14,10 @@ using namespace adventOfCode;
  *  @date   2022-12-09
  */
 std::string Year2022::december09() const {
+    if (exempt("09")) {
+        return "";
+    }
+
     return "TBI";
 }
 

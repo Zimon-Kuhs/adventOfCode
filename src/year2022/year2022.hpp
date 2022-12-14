@@ -1,7 +1,9 @@
 #ifndef __ADVENT_OF_CODE_DECEMBER_2022_HPP__
 #define __ADVENT_OF_CODE_DECEMBER_2022_HPP__
 
+#include <algorithm>
 #include <string>
+#include <vector>
 
 namespace adventOfCode {
 
@@ -10,7 +12,7 @@ namespace adventOfCode {
 */
 class Year2022 final {
     public:
-        Year2022() {}
+        Year2022 (const std::vector<std::string> &exceptions) : exceptions(exceptions) {}
 
         std::string december01() const;
         std::string december02() const;
@@ -37,6 +39,14 @@ class Year2022 final {
         std::string december23() const;
         std::string december24() const;
         std::string december25() const;
+
+    protected:
+        bool exempt(const std::string &number) const {
+            return std::find(exceptions.begin(), exceptions.end(), number) != exceptions.end();
+        }
+
+    private:
+            std::vector<std::string> exceptions;
 };
 
 }   // namespace adventOfCode

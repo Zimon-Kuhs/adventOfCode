@@ -83,10 +83,6 @@ Move rig(Result outcome, Move opponent) {
  *  @date   2022-12-02
  */
 std::string Year2022::december02() const {
-    if (exempt("02")) {
-        return "";
-    }
-
     const std::map<std::string, std::pair<std::string, Move>> opponentMoves = {
         { "A", { "Rock",        Rock } },
         { "B", { "Paper",       Paper } },

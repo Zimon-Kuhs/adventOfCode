@@ -190,35 +190,52 @@ def generateCPP(year, blueprint, source, test):
 
     lines = []
     lines.extend(includes("#include", ["\"log.hpp\"", f"\"year{year}.hpp\""]))
-    lines.append("")
-    lines.append("#define UNUSED(x) ((void) x)")
-    lines.append("")
+    lines.append(f"")
+    lines.append(f"#define UNUSED(x) ((void) x)")
+    lines.append(f"")
     lines.append(f"using namespace {namespace};")
-    lines.append("")
+    lines.append(f"")
+    lines.append(f"static size_t failures = 0;")
+    lines.append(f"")
 
     constString = "const std::string"
     lines.append(f"void doTest({constString} &date, {constString} &actual, {constString} &expected) {{")
-    lines.append(f"    if (actual != expected) {{")
+    lines.append(f"    if (actual == \"\") {{")
+    lines.append(f"        echo(\"[\" + date + \"] Skipped.\");")
+    lines.append(f"    }} else if (actual != expected) {{")
     lines.append(f"        echo(\"[\" + date + \"] \" + actual + \" != \" + expected + \".\");")
+    lines.append(f"        ++failures;")
     lines.append(f"    }}")
     lines.append(f"}}")
 
     lines.extend(docString(year, ["/*", " */"], " *  "))
-    lines.append("int main(int argc, char **argv) {")
-    lines.append("    UNUSED(argc);")
-    lines.append("    UNUSED(argv);")
-    lines.append("")
-    lines.append(f"    const Year{year} year{year} = Year{year}();")
-    lines.append("")
+    lines.append(f"int main(int argc, char **argv) {{")
+    lines.append(f"    UNUSED(argc);")
+    lines.append(f"    UNUSED(argv);")
+    lines.append(f"")
+    lines.append(f"    std::vector<std::string> arguments = {{}};")
+    lines.append(f"    arguments.assign(argv + 1, argv + argc);")
+    lines.append(f"    const Year{year} year{year} = Year{year}(arguments);")
+    lines.append(f"")
 
-    lines.append("    echo(\"Starting tests.\");")
+    lines.append(f"    echo(\"Starting tests.\");")
     for date in dateRange:
         lines.append(insertTime(f"    doTest(\"DD\", yearYYYY.decemberDD(), \"TBI\");", year, date))
-    lines.append("    echo(\"Tests done.\");")
-    lines.append("")
+    lines.append(f"    echo(\"Tests done.\");")
+    lines.append(f"")
 
-    lines.append("    return 0;")
-    lines.append("}")
+    lines.append(f"    const bool success = failures == 0;")
+    lines.append(f"    if (!success) {{")
+    lines.append(f"        const bool several = failures > 1;")
+    lines.append(f"        std::string verb = several ? \"were\" : \"was\";")
+    lines.append(f"        std::string plural = several ? \"s\" : \"\";")
+
+    lines.append(f"        echo(\"There \" + verb + \" \" + std::to_string(failures) + \" failure\" + plural + \".\");");
+    lines.append(f"    }}")
+    lines.append(f"")
+
+    lines.append(f"    return success ? 0 : 1;")
+    lines.append(f"}}")
 
     with open(f"{source}/year{year}/test{year}.cpp", "w", encoding="utf-8") as main:
         for line in lines:
@@ -230,25 +247,35 @@ def generateCPP(year, blueprint, source, test):
     headerGuard = f"__ADVENT_OF_CODE_DECEMBER_{year}_HPP__"
     lines.append(f"#ifndef {headerGuard}")
     lines.append(f"#define {headerGuard}")
-    lines.append("")
-    lines.extend(includes("#include", ["<string>"]))
-    lines.append("")
+    lines.append(f"")
+    lines.extend(includes("#include", ["<algorithm>", "<string>", "<vector>"]))
+    lines.append(f"")
     lines.append(f"namespace {namespace} {{")
-    lines.append("")
+    lines.append(f"")
     lines.extend(["/**", " * Base test class.", "*/"])
 
     lines.append(f"class Year{year} final {{")
-    lines.append("    public:")
-    lines.append(f"        Year{year}() {{}}")
-    lines.append("")
+    lines.append(f"    public:")
+    lines.append(f"        Year{year} (const std::vector<std::string> &exceptions) : exceptions(exceptions) {{}}")
+    lines.append(f"")
 
     for date in dateRange:
         lines.append(insertTime(f"        std::string decemberDD() const;", year, date))
+    lines.append(f"")
 
-    lines.append("};")
-    lines.append("")
+    lines.append(f"    protected:")
+    lines.append(f"        bool exempt(const std::string &number) const {{")
+    lines.append(f"            return std::find(exceptions.begin(), exceptions.end(), number) != exceptions.end();")
+    lines.append(f"        }}")
+    lines.append(f"")
+
+    lines.append(f"    private:")
+    lines.append(f"            std::vector<std::string> exceptions;")
+
+    lines.append(f"}};")
+    lines.append(f"")
     lines.append(f"}}   // namespace {namespace}")
-    lines.append("")
+    lines.append(f"")
     lines.append(f"#endif  // {headerGuard}")
 
     with open(f"{source}/year{year}/year{year}.hpp", "w", encoding="utf-8") as outputFile:

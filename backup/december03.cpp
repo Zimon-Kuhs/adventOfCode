@@ -35,10 +35,6 @@ size_t charPoints(const char &character) {
  *  @date   2022-12-03
  */
 std::string Year2022::december03() const {
-    if (exempt("03")) {
-        return "";
-    }
-
     const size_t groupSize = 3;
     const std::vector<std::vector<std::string>> groups =
         subVectors(fileAsLines(std::filesystem::path("input/03.txt"), false), groupSize);

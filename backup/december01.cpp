@@ -13,9 +13,6 @@ using namespace adventOfCode;
  *  @date   2022-12-01
  */
 std::string Year2022::december01() const {
-    if (exempt("01")) {
-        return "";
-    }
 
     std::vector<std::string> input = fileAsLines(std::filesystem::path("input/01.txt"));
     while (input.at(0).empty()) {

@@ -11,12 +11,12 @@
 
 using namespace adventOfCode;
 
-bool intervalContains(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
+bool intervalsContain(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
     return (interval.first >= other.first && interval.second <= other.second) ||
            (other.first >= interval.first && other.second <= interval.second);
 }
 
-bool intervalIntersects(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
+bool intervalsIntersect(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
     return (interval.first >= other.first && interval.first <= other.second) ||
            (other.first >= interval.first && other.first <= interval.second);
 }
@@ -48,7 +48,7 @@ std::string Year2022::december04() const {
 
     size_t points = 0;
     for (const std::pair<std::pair<size_t, size_t>, std::pair<size_t, size_t>> &entry : numbers) {
-        points += intervalIntersects(entry.first, entry.second) ? 1 : 0;
+        points += intervalsIntersect(entry.first, entry.second) ? 1 : 0;
     }
 
 

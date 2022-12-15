@@ -41,6 +41,6 @@ std::string Year2022::december06() const {
         return "";
     }
 
-    return std::to_string(processLength(readData(), 4));
+    return std::to_string(processLength(readData(), 14));
 }
 

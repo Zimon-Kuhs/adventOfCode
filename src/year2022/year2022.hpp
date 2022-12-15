@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "log.hpp"
+
 namespace adventOfCode {
 
 /**
@@ -12,7 +14,15 @@ namespace adventOfCode {
 */
 class Year2022 final {
     public:
-        Year2022 (const std::vector<std::string> &exceptions) : exceptions(exceptions) {}
+        Year2022 (const std::vector<std::string> &selection) : tests({}) {
+            const bool &all = selection.empty();
+            for (size_t i = 1; i < 26; ++i) {
+                const std::string &number = (i >= 10 ? "" : "0" ) + std::to_string(i);
+                if (all || std::find(selection.begin(), selection.end(), number) != selection.end()) {
+                    tests.push_back(number);
+                }
+            }
+        }
 
         std::string december01() const;
         std::string december02() const;
@@ -42,11 +52,11 @@ class Year2022 final {
 
     protected:
         bool exempt(const std::string &number) const {
-            return std::find(exceptions.begin(), exceptions.end(), number) != exceptions.end();
+            return std::find(tests.begin(), tests.end(), number) == tests.end();
         }
 
     private:
-            std::vector<std::string> exceptions;
+            std::vector<std::string> tests;
 };
 
 }   // namespace adventOfCode

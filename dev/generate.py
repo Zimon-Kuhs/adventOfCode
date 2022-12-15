@@ -200,11 +200,14 @@ def generateCPP(year, blueprint, source, test):
 
     constString = "const std::string"
     lines.append(f"void doTest({constString} &date, {constString} &actual, {constString} &expected) {{")
+    lines.append(f"    {constString} name = \"[\" + date + \"]\";")
     lines.append(f"    if (actual == \"\") {{")
-    lines.append(f"        echo(\"[\" + date + \"] Skipped.\");")
+    lines.append(f"        echo(name + \" Skipped.\");")
     lines.append(f"    }} else if (actual != expected) {{")
-    lines.append(f"        echo(\"[\" + date + \"] \" + actual + \" != \" + expected + \".\");")
+    lines.append(f"        echo(name + \" \" + actual + \" != \" + expected + \".\");")
     lines.append(f"        ++failures;")
+    lines.append(f"    }} else {{")
+    lines.append(f"       echo(name + \" Success.\");")
     lines.append(f"    }}")
     lines.append(f"}}")
 
@@ -256,7 +259,15 @@ def generateCPP(year, blueprint, source, test):
 
     lines.append(f"class Year{year} final {{")
     lines.append(f"    public:")
-    lines.append(f"        Year{year} (const std::vector<std::string> &exceptions) : exceptions(exceptions) {{}}")
+    lines.append(f"        Year{year} (const std::vector<std::string> &selection) : tests({{}}) {{")
+    lines.append(f"            const bool &all = selection.empty();")
+    lines.append(f"            for (size_t i = 1; i < 26; ++i) {{")
+    lines.append(f"                const std::string &number = (i >= 10 ? \"\" : \"0\" ) + std::to_string(i);")
+    lines.append(f"                if (all || std::find(selection.begin(), selection.end(), number) != selection.end()) {{")
+    lines.append(f"                    tests.push_back(number);")
+    lines.append(f"                }}")
+    lines.append(f"            }}")
+    lines.append(f"        }}")
     lines.append(f"")
 
     for date in dateRange:
@@ -265,12 +276,12 @@ def generateCPP(year, blueprint, source, test):
 
     lines.append(f"    protected:")
     lines.append(f"        bool exempt(const std::string &number) const {{")
-    lines.append(f"            return std::find(exceptions.begin(), exceptions.end(), number) != exceptions.end();")
+    lines.append(f"            return std::find(tests.begin(), tests.end(), number) == tests.end();")
     lines.append(f"        }}")
     lines.append(f"")
 
     lines.append(f"    private:")
-    lines.append(f"            std::vector<std::string> exceptions;")
+    lines.append(f"            std::vector<std::string> tests;")
 
     lines.append(f"}};")
     lines.append(f"")

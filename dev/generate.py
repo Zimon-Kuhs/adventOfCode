@@ -1,6 +1,8 @@
 """
     Used to generate the many files I want for this repo.
 
+    TODO: This shit is too fucking long. Modularize.
+
     @author Zimon Kuhs
     @date   2021-11-24
 """

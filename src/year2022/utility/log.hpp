@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <map>
+#include <set>
 #include <sstream>
 #include <stack>
 #include <string>
@@ -30,6 +31,21 @@ void echo(const std::map<K, V> &map) {
     for (const std::string &line : lines) {
         echo(line);
     }
+}
+
+template <typename T>
+void echo(const std::set<T> &set) {
+    std::stringstream string;
+    std::string prefix = "";
+
+    string << "{";
+    for (const T &t : set) {
+        string << prefix << t;
+        prefix = ", ";
+    }
+    string << "}";
+
+    echo(string.str());
 }
 
 template <typename T>

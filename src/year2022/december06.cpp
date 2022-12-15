@@ -17,16 +17,17 @@ static std::string readData() {
     return data;
 }
 
-std::string findUniqueSequence(const std::string &string, const size_t &length) {
+size_t processLength(const std::string &string, const size_t &length) {
     size_t start = 0;
-    size_t end = length - 1;
 
     while (true) {
-        const std::string &sequence = string.substr(start, end);
-        if (charSet(sequence).size() == sequence.length()) {
-            return sequence;
+        const std::string &sequence = string.substr(start++, length);
+        if (charSet(sequence).size() == length) {
+            return start + length - 1;
         }
     }
+
+    return 0;
 }
 
 /**
@@ -40,6 +41,6 @@ std::string Year2022::december06() const {
         return "";
     }
 
-    return findUniqueSequence(readData(), 4);
+    return std::to_string(processLength(readData(), 4));
 }
 

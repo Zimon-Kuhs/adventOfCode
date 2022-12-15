@@ -17,7 +17,7 @@ typedef struct StackMove {
     const size_t to;
 } StackMove;
 
-std::pair<std::vector<std::stack<char>>, std::vector<StackMove>> parseInput() {
+static std::pair<std::vector<std::stack<char>>, std::vector<StackMove>> parseInput() {
     const std::vector<std::string> lines = fileAsLines(std::filesystem::path("input/05.txt"));
     std::vector<std::string> first = {};
     std::vector<std::string> second = {};

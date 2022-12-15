@@ -16,7 +16,7 @@ using namespace adventOfCode;
  *  @param character    The character which points to calculate.
  *  @return             The arbitrary amount of points for the character.
  */
-size_t charPoints(const char &character) {
+static size_t charPoints(const char &character) {
     size_t ascii = int(character);
 
     if (std::isupper(character)) {

@@ -11,12 +11,13 @@
 
 using namespace adventOfCode;
 
-bool intervalsContain(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
+[[maybe_unused]]
+static bool intervalsContain(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
     return (interval.first >= other.first && interval.second <= other.second) ||
            (other.first >= interval.first && other.second <= interval.second);
 }
 
-bool intervalsIntersect(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
+static bool intervalsIntersect(const std::pair<size_t, size_t> &interval, const std::pair<size_t, size_t> &other) {
     return (interval.first >= other.first && interval.first <= other.second) ||
            (other.first >= interval.first && other.first <= interval.second);
 }

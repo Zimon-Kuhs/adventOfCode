@@ -9,13 +9,13 @@ static size_t failures = 0;
 
 void doTest(const std::string &date, const std::string &actual, const std::string &expected) {
     const std::string name = "[" + date + "]";
-    if (actual == "") {
-        echo(name + " Skipped.");
+    if (actual == "" || actual == "TBI") {
+        echo(name + " -");
     } else if (actual != expected) {
         echo(name + " " + actual + " != " + expected + ".");
         ++failures;
     } else {
-       echo(name + " Success.");
+       echo(name + " +");
     }
 }
 /*
@@ -33,11 +33,11 @@ int main(int argc, char **argv) {
     const Year2022 year2022 = Year2022(arguments);
 
     echo("Starting tests.");
-    doTest("01", year2022.december01(), "TBI");
-    doTest("02", year2022.december02(), "TBI");
-    doTest("03", year2022.december03(), "TBI");
-    doTest("04", year2022.december04(), "TBI");
-    doTest("05", year2022.december05(), "TBI");
+    doTest("01", year2022.december01(), "203420");
+    doTest("02", year2022.december02(), "12767");
+    doTest("03", year2022.december03(), "2616");
+    doTest("04", year2022.december04(), "854");
+    doTest("05", year2022.december05(), "BRQWDBBJM");
     doTest("06", year2022.december06(), "TBI");
     doTest("07", year2022.december07(), "TBI");
     doTest("08", year2022.december08(), "TBI");

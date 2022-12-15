@@ -201,7 +201,7 @@ def generateCPP(year, blueprint, source, test):
     constString = "const std::string"
     lines.append(f"void doTest({constString} &date, {constString} &actual, {constString} &expected) {{")
     lines.append(f"    {constString} name = \"[\" + date + \"]\";")
-    lines.append(f"    if (actual == \"\") {{")
+    lines.append(f"    if (actual == \"\" || actual == \"TBI\") {{")
     lines.append(f"        echo(name + \" Skipped.\");")
     lines.append(f"    }} else if (actual != expected) {{")
     lines.append(f"        echo(name + \" \" + actual + \" != \" + expected + \".\");")

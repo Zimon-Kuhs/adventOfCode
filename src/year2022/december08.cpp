@@ -11,33 +11,36 @@
 
 using namespace adventOfCode;
 
-bool isVisible(const std::vector<std::vector<size_t>> grid,
+size_t score(const std::vector<std::vector<size_t>> grid,
                const size_t &row,
                const size_t &column,
                const int &dx,
                const int &dy) {
 
     const size_t &length = grid.size();
-    const size_t &tree = grid.at(row).at(column);
     const int rowEdge = dx == 1 ? static_cast<int>(length) : -1;
     const int colEdge = dy == 1 ? static_cast<int>(length) : -1;
 
     int x = static_cast<int>(row);
     int y = static_cast<int>(column);
+    size_t score = 0;
+    size_t currentBlocker = 0;
     while((x = x + dx) != rowEdge && (y = y + dy) != colEdge) {
-        if (grid.at(x).at(y) >= tree) {
-            return false;
+        const size_t &height = grid.at(x).at(y);
+        if (height >= currentBlocker) {
+            currentBlocker = height;
+            ++score;
         }
     }
 
-    return true;
+    return score;
 }
 
-bool isVisible(const std::vector<std::vector<size_t>> grid, const size_t &row, const size_t &column) {
-    return isVisible(grid, row, column,  0,  1) ||
-           isVisible(grid, row, column,  0, -1) ||
-           isVisible(grid, row, column,  1,  0) ||
-           isVisible(grid, row, column, -1,  0);
+size_t score(const std::vector<std::vector<size_t>> grid, const size_t &row, const size_t &column) {
+    return score(grid, row, column,  0,  1) *
+           score(grid, row, column,  0, -1) *
+           score(grid, row, column,  1,  0) *
+           score(grid, row, column, -1,  0);
 }
 
 /**
@@ -68,7 +71,7 @@ std::string Year2022::december08() const {
     size_t result = 0;
     for (size_t i = 1; i < length - 1; ++i) {
         for (size_t j = 1; j < length - 1; ++j) {
-            result += isVisible(grid, i, j) ? 1 : 0;
+            result += score(grid, i, j) ? 1 : 0;
         }
     }
 

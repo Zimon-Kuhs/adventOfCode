@@ -4,6 +4,7 @@
 #include <utility>
 
 #include "year2022.hpp"
+#include "collections.hpp"
 #include "directory.hpp"
 #include "files.hpp"
 #include "strings.hpp"
@@ -21,7 +22,8 @@ std::string Year2022::december07() const {
         return "";
     }
 
-    std::shared_ptr<Directory> current = std::make_shared<Directory>();
+    const std::shared_ptr<Directory> root = std::make_shared<Directory>();
+    std::shared_ptr<Directory> current = root;
     std::vector<std::string> lines = fileAsLines(std::filesystem::path("input/07.txt"));
 
     for (size_t i = 0; i < lines.size(); ++i) {
@@ -41,11 +43,20 @@ std::string Year2022::december07() const {
         }
     }
 
-    size_t total = 0;
-    for (const std::pair<std::shared_ptr<Directory>, size_t> &dir : current->root()->findDirs(100000)) {
-        total += dir.second;
+    std::map<std::shared_ptr<Directory>, size_t> allDirs = root->findDirs();
+    const size_t required = 30000000 - (70000000 - root->memory());
+
+    size_t min = SIZE_MAX;
+    std::shared_ptr<Directory> result = nullptr;
+    std::vector<std::pair<std::shared_ptr<Directory>, size_t>> directories = {};
+    for (const std::pair<std::shared_ptr<Directory>, size_t> &dir : allDirs) {
+        const size_t &fileSize = dir.second;
+        if (dir.second > required && (result == nullptr || fileSize < min)) {
+            result = dir.first;
+            min = fileSize;
+        }
     }
 
-    return std::to_string(total);
+    return std::to_string(min);
 }
 

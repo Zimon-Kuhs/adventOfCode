@@ -78,7 +78,7 @@ size_t Directory::memory(const size_t &maximum) const {
 
     for (const std::pair<std::string, size_t> &file : files) {
         const size_t &fileSize = file.second;
-        if (fileSize >= maximum) {
+        if (fileSize < maximum) {
             total += fileSize;
         }
     }
@@ -86,17 +86,17 @@ size_t Directory::memory(const size_t &maximum) const {
     return total;
 }
 
-std::vector<std::pair<std::shared_ptr<Directory>, size_t>> Directory::findDirs(const size_t &maximum) {
-    std::vector<std::pair<std::shared_ptr<Directory>, size_t>> result = {};
+std::map<std::shared_ptr<Directory>, size_t> Directory::findDirs(const size_t &maximum) {
+    std::map<std::shared_ptr<Directory>, size_t> result = {};
     for (const std::shared_ptr<Directory> subDirectory : directories) {
         for (const std::pair<std::shared_ptr<Directory>, size_t> &found : subDirectory->findDirs(maximum)) {
-            result.push_back(found);
+            result[found.first] = found.second;
         }
     }
 
-    const size_t bytes = memory(0);
-    if (memory(0) < maximum) {
-        result.push_back({ me(), bytes });
+    const size_t bytes = memory();
+    if (bytes < maximum) {
+        result[me()] = bytes;
     }
 
     return result;

@@ -48,13 +48,13 @@ class Directory : public std::enable_shared_from_this<Directory> {
          *  @return         A vector containing directory-memory pairs of
          *                  all the directories with at least the maximum size.
          */
-        std::vector<std::pair<std::shared_ptr<Directory>, size_t>> findDirs(const size_t &maximum);
+        std::map<std::shared_ptr<Directory>, size_t> findDirs(const size_t &maximum = SIZE_MAX);
 
         /**
          *  @param maximum  The maximum file size to count.
          *  @return         The total file size of the current directory.
          */
-        size_t memory(const size_t &maximum) const;
+        size_t memory(const size_t &maximum = SIZE_MAX) const;
 
         /**
          *  @return The name of the directory.

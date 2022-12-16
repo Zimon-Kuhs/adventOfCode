@@ -2,6 +2,7 @@
 #define __ADVENT_OF_CODE_COLLECTIONS_HPP__
 
 #include <algorithm>
+#include <map>
 #include <stdexcept>
 #include <vector>
 
@@ -51,6 +52,32 @@ std::vector<std::vector<T>> divideVector(const std::vector<T> &vector, const siz
         start += length;
     }
 
+    return result;
+}
+
+/**
+ *  @param map  The map which keys to get.
+ *  @return     All the keys in a map.
+ */
+template<typename K, typename V>
+std::vector<K> mapKeys(const std::map<K, V> &map) {
+    std::vector<K> result = {};
+    for (const std::pair<K, V> &entry : map) {
+        result.push_back(entry.first);
+    }
+    return result;
+}
+
+/**
+ *  @param map  The map which values to get.
+ *  @return     All the values in a map.
+ */
+template<typename K, typename V>
+std::vector<V> mapValues(const std::map<K, V> &map) {
+    std::vector<V> result = {};
+    for (const std::pair<K, V> &entry : map) {
+        result.push_back(entry.second);
+    }
     return result;
 }
 

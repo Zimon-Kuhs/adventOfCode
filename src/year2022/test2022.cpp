@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     doTest("05", year2022.december05(), "BRQWDBBJM");
     doTest("06", year2022.december06(), "2260");
     doTest("07", year2022.december07(), "4443914");
-    doTest("08", year2022.december08(), "TBI");
+    doTest("08", year2022.december08(), "1715");
     doTest("09", year2022.december09(), "TBI");
     doTest("10", year2022.december10(), "TBI");
     doTest("11", year2022.december11(), "TBI");

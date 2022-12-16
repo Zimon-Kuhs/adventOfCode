@@ -6,9 +6,9 @@
 #include "year2022.hpp"
 #include "directory.hpp"
 #include "files.hpp"
+#include "strings.hpp"
 
 using namespace adventOfCode;
-
 
 /**
  *  Solves the 2022-12-07 problem.
@@ -21,22 +21,31 @@ std::string Year2022::december07() const {
         return "";
     }
 
-    std::unique_ptr<Directory> current = std::make_unique<Directory>();
+    std::shared_ptr<Directory> current = std::make_shared<Directory>();
+    std::vector<std::string> lines = fileAsLines(std::filesystem::path("input/07.txt"));
 
-    for (const std::string &line : fileAsLines(std::filesystem::path("input/07.txt"))) {
-        if (line.at(0) == '$') {
-            const std::string &cmd = line.substr(2, 2);
-            if (cmd == "cd") {
-                // CD.
-            } else if (cmd == "ls") {
-                // Add files, create subDirectories.
+    for (size_t i = 0; i < lines.size(); ++i) {
+        std::string &line = lines.at(i);
+        const std::vector<std::string> parts = splitString(line, ' ');
+
+        if (parts.at(0) == "$") {
+            if (parts.at(1) == "cd") {
+                current = current->enter(parts.at(2));
             } else {
-                throw std::runtime_error("Parsed invalid command: " + cmd);
+                continue;
             }
+        } else if (parts.at(0) == "dir") {
+            current->create(parts.at(1));
+        } else {
+            current->file(parts.at(1), std::stoul(parts.at(0)));
         }
     }
 
-    // TODO: Also add memory size filtering.
-    return "TBI";
+    size_t total = 0;
+    for (const std::pair<std::shared_ptr<Directory>, size_t> &dir : current->root()->findDirs(100000)) {
+        total += dir.second;
+    }
+
+    return std::to_string(total);
 }
 

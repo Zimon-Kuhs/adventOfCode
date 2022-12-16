@@ -8,7 +8,7 @@
 
 namespace adventOfCode {
 
-class Directory {
+class Directory : public std::enable_shared_from_this<Directory> {
     public:
         /**
          *  Initializes directory structure at root level.
@@ -19,14 +19,15 @@ class Directory {
          *  Creates a subdirectory to the current one.
          *
          *  @param name The name of the subdirectory.
+         *  @return     The created subdirectory.
          */
-        void create(const std::string &name);
+        std::shared_ptr<Directory> create(const std::string &name);
 
         /**
          *  @param subDirectory A directory within the current one.
          *  @return             Pointer to the subdirectory requested.
          */
-        std::shared_ptr<Directory> enter(const std::string &subDirectory) const;
+        std::shared_ptr<Directory> enter(const std::string &subDirectory);
 
         /**
          *  Creates a file in this directory.
@@ -43,14 +44,32 @@ class Directory {
         bool has(const std::string &subDirectory) const;
 
         /**
-         *  @return The total file size of the current directory.
+         *  @param maximum  The maximum size of directories to include.
+         *  @return         A vector containing directory-memory pairs of
+         *                  all the directories with at least the maximum size.
          */
-        size_t memory() const;
+        std::vector<std::pair<std::shared_ptr<Directory>, size_t>> findDirs(const size_t &maximum);
+
+        /**
+         *  @param maximum  The maximum file size to count.
+         *  @return         The total file size of the current directory.
+         */
+        size_t memory(const size_t &maximum) const;
+
+        /**
+         *  @return The name of the directory.
+         */
+        std::string name() const;
 
         /**
          *  @return A string specifying the current directory's path.
          */
         std::string path() const;
+
+        /**
+         *  @return The root directory.
+         */
+        std::shared_ptr<Directory> root();
 
         /**
          *  @return The parent directory.
@@ -59,7 +78,7 @@ class Directory {
 
     private:
         /**
-         *  Initializes directory structure at root level.
+         *  Creates a directory.
          *
          *  @param name     The name of the directory.
          *  @param parent   The parent directory.
@@ -67,11 +86,10 @@ class Directory {
         Directory(const std::string &name, const std::shared_ptr<Directory> parent);
 
         /**
-         *  @return The name of the directory.
+         *  @return A smart reference to `this`.
          */
-        std::string name() const;
+        std::shared_ptr<Directory> me();
 
-        const std::shared_ptr<Directory> me;
         const std::string dirName;
         const std::shared_ptr<Directory> parent;
         std::map<std::string, size_t> files;

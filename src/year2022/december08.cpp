@@ -17,19 +17,19 @@ size_t score(const std::vector<std::vector<size_t>> grid,
                const int &dx,
                const int &dy) {
 
-    const size_t &length = grid.size();
-    const int rowEdge = dx == 1 ? static_cast<int>(length) : -1;
-    const int colEdge = dy == 1 ? static_cast<int>(length) : -1;
+    const int &length = static_cast<int>(grid.size());
+    const size_t &tree = grid.at(row).at(column);
+    const int rowEdge = dx == 1 ? length : -1;
+    const int colEdge = dy == 1 ? length : -1;
 
     int x = static_cast<int>(row);
     int y = static_cast<int>(column);
+
     size_t score = 0;
-    size_t currentBlocker = 0;
     while((x = x + dx) != rowEdge && (y = y + dy) != colEdge) {
-        const size_t &height = grid.at(x).at(y);
-        if (height >= currentBlocker) {
-            currentBlocker = height;
-            ++score;
+        ++score;
+        if (grid.at(x).at(y) >= tree) {
+            break;
         }
     }
 
@@ -66,15 +66,13 @@ std::string Year2022::december08() const {
     }
 
     const size_t &length = grid.size();
-    const size_t edgeAmount = (length - 1) * 4;
-
     size_t result = 0;
     for (size_t i = 1; i < length - 1; ++i) {
         for (size_t j = 1; j < length - 1; ++j) {
-            result += score(grid, i, j) ? 1 : 0;
+            result = std::max(result, score(grid, i, j));
         }
     }
 
-    return std::to_string(result + edgeAmount);
+    return std::to_string(result);
 }
 

@@ -35,7 +35,7 @@ std::string Year2022::december01() const {
     }
 
     std::vector<size_t> sums = {};
-    for (const std::vector<size_t> food : calories) {
+    for (const std::vector<size_t> &food : calories) {
         sums.push_back(vectorSum(food));
     }
 

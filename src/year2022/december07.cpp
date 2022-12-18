@@ -49,7 +49,7 @@ std::string Year2022::december07() const {
     size_t min = SIZE_MAX;
     std::shared_ptr<Directory> result = nullptr;
     std::vector<std::pair<std::shared_ptr<Directory>, size_t>> directories = {};
-    for (const std::pair<std::shared_ptr<Directory>, size_t> &dir : allDirs) {
+    for (const std::pair<std::shared_ptr<Directory>, size_t> dir : allDirs) {
         const size_t &fileSize = dir.second;
         if (dir.second > required && (result == nullptr || fileSize < min)) {
             result = dir.first;

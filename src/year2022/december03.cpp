@@ -56,7 +56,7 @@ std::string Year2022::december03() const {
             }
         }
 
-        for (const std::pair<char, size_t> &entry : amounts) {
+        for (const std::pair<char, size_t> entry : amounts) {
             if (entry.second == groupSize) {
                 badges.push_back(entry.first);
                 break;

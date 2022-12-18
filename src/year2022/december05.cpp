@@ -100,7 +100,7 @@ std::string Year2022::december05() const {
     }
 
     std::string result = "";
-    for (const std::stack<char> stack : stacks) {
+    for (const std::stack<char> &stack : stacks) {
         result += stack.top();
     }
 

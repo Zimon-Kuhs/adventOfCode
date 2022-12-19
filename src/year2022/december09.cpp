@@ -29,10 +29,6 @@ typedef struct Node {
     std::string string() const {
         return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
     }
-
-    bool operator<(const Node &other) const {
-        return x < other.x || y < other.y;
-    }
 } Node;
 
 std::vector<Command> parseCommands(const std::vector<std::string> &lines) {
@@ -72,28 +68,38 @@ std::string Year2022::december09() const {
         return "";
     }
 
-    Node head = { 0, 0 };
-    Node tail = { 0, 0 };
+    std::vector<Node> nodes = std::vector<Node>(10, { 0, 0 });
+    Node &head = nodes.front();
+    Node &tail = nodes.back();
 
-    std::set<Node> path = { { 0, 0 } };
+    std::set<std::string> path = { "0_0" };
     for (const Command &command : parseCommands(fileAsLines(std::filesystem::path("input/09.txt")))) {
-        echo("Command: " + command.string() + ".");
         for (size_t i = 0; i < command.amount; ++i) {
             head.x += command.dx;
             head.y += command.dy;
 
-            const int dx = tail.x - head.x;
-            const int dy = tail.y - head.y;
+            for (size_t j = 1; j < nodes.size(); ++j) {
+                Node &segment = nodes.at(j);
+                Node &previous = nodes.at(j - 1);
 
-            if (std::abs(dx) > 1) {
-                tail.x += sign(dx);
+                const int dx = segment.x - previous.x;
+                const int dy = segment.y - previous.y;
+                const int xShift = sign(dx);
+                const int yShift = sign(dy);
+                const unsigned int adx = std::abs(dx);
+                const unsigned int ady = std::abs(dy);
+
+                if (adx + ady > 2) {
+                    segment.x += xShift;
+                    segment.y += yShift;
+                } else if (adx > 1) {
+                    segment.x += xShift;
+                } else if (ady > 1) {
+                    segment.y += yShift;
+                }
             }
-            if (std::abs(dy) > 1) {
-                tail.y += sign(dy);
-            }
-            path.insert({ tail.x, tail.y });
-            echo("    " + head.string());
-            echo("    " + tail.string());
+
+            path.insert(std::to_string(tail.x) + "_" + std::to_string(tail.y));
         }
     }
 

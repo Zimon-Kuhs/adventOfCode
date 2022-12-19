@@ -143,7 +143,7 @@ std::vector<N> vectorHighest(const std::vector<N> elements, const size_t &amount
  *  @return         The sum of all elements in `vector`.
  */
 template <typename N>
-N vectorSum(const std::vector<N> &vector) {
+long long vectorSum(const std::vector<N> &vector) {
     long long total = 0;
     for (const N &element : vector) {
         total += element;

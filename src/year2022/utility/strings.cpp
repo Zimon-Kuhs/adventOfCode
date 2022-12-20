@@ -62,7 +62,9 @@ std::vector<std::string> adventOfCode::splitString(const std::string &string, co
     std::string token;
 
     while(std::getline( mySstream, token, delimiter ) ) {
-        tokens.push_back(token);
+        if (!token.empty()) {
+            tokens.push_back(token);
+        }
     }
 
     return tokens;

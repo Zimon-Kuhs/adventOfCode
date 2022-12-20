@@ -20,6 +20,13 @@ std::vector<std::string> fileAsLines(const std::filesystem::path &file, const bo
  */
 std::vector<std::vector<std::string>> fileAsMatrix(const std::filesystem::path &file, const bool &keepEmpty = true);
 
+/**
+ *  @param file         The file to read.
+ *  @param keepEmpty    Flag specifying whether to keep empty lines, default `true`.
+ *  @return             The contents of `file` as a single string.
+ */
+std::string fileAsString(const std::filesystem::path &file, const bool &keepEmpty = true);
+
 }   // namespace adventOfCode
 
 #endif  // __ADVENT_OF_CODE_FILES_HPP__

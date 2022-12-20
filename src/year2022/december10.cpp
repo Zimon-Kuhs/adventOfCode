@@ -58,7 +58,7 @@ class CPU {
 
 class CRT {
     public:
-        CRT() : pixels({{}}), position(0), cycle(0) {}
+        CRT() : pixels({{}}), cycle(0) {}
 
         std::string string() const {
             std::stringstream result;
@@ -71,21 +71,19 @@ class CRT {
             return result.str();
         }
 
-        void tick(const int &modifier) {
-            if (position >= 20) {
-                position = 0;
+        void tick(const int &position) {
+            if (cycle >= 40) {
+                cycle = 0;
                 pixels.push_back({});
             }
 
             pixels.back().push_back(
-                ++cycle + modifier + 1 <= 2 ? '#' : '.'
+                std::abs(static_cast<int>(cycle++) - position) <= 1 ? '#' : '.'
             );
-            position += 1;
         }
 
     private:
         std::vector<std::vector<char>> pixels;
-        size_t position;
         size_t cycle;
 };
 
@@ -112,11 +110,10 @@ std::string Year2022::december10() const {
 
     CRT crt = CRT();
     while (cpu.busy()) {
-        cpu.tick();
         crt.tick(cpu.value());
+        cpu.tick();
     }
-    echo(crt.string());
 
-    return std::to_string(vectorSum(cpu.strengths()));
+    return crt.string();
 }
 

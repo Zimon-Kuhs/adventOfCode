@@ -55,3 +55,11 @@ std::vector<std::vector<std::string>> adventOfCode::fileAsMatrix(const std::file
 
     return result;
 }
+
+std::string adventOfCode::fileAsString(const std::filesystem::path &file, const bool &keepEmpty) {
+    std::stringstream result;
+    for (const std::string &line : fileAsLines(file, keepEmpty)) {
+        result << line << std::endl;
+    }
+    return result.str();
+}

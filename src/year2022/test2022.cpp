@@ -1,5 +1,6 @@
-#include "log.hpp"
 #include "year2022.hpp"
+#include "files.hpp"
+#include "log.hpp"
 
 #define UNUSED(x) ((void) x)
 
@@ -7,17 +8,39 @@ using namespace adventOfCode;
 
 static size_t failures = 0;
 
+void doTest(const std::string &date, const std::string &actual, const std::string &expected);
+std::string output(const std::string &number);
+
+/**
+ *  Prints output for each test.
+ *
+ *  @param date     The test date.
+ *  @param actual   The result from the function.
+ *  @param expected The expected output.
+ */
 void doTest(const std::string &date, const std::string &actual, const std::string &expected) {
+    const std::string &comparison = expected.empty() ? output(date) : expected;
+
     const std::string name = "[" + date + "]";
     if (actual == "" || actual == "TBI") {
         echo(name + " -");
-    } else if (actual != expected) {
-        echo(name + " " + actual + " != " + expected + ".");
+    } else if (actual != comparison) {
+        echo(name + " " + actual + " != " + comparison + ".");
         ++failures;
     } else {
        echo(name + " +");
     }
 }
+
+/**
+ *  Reads output from an output file. In case the expected result is big.
+ *
+ *  @param number   The date to read output for.
+ */
+std::string output(const std::string &number) {
+    return fileAsString(std::filesystem::path("output/" + number + ".txt"));
+}
+
 /*
  *  Tests the problems for year 2022.
  *
@@ -42,7 +65,7 @@ int main(int argc, char **argv) {
     doTest("07", year2022.december07(), "4443914");
     doTest("08", year2022.december08(), "374400");
     doTest("09", year2022.december09(), "2630");
-    doTest("10", year2022.december10(), "14760");
+    doTest("10", year2022.december10(), "");
     doTest("11", year2022.december11(), "TBI");
     doTest("12", year2022.december12(), "TBI");
     doTest("13", year2022.december13(), "TBI");

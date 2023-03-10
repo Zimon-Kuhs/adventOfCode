@@ -107,6 +107,8 @@ std::string Year2022::december11() const {
     if (exempt("11")) {
         return "";
     }
+    std::cout << "DERPEPRPERP" << std::endl;
+    std::cout << std::to_string(std::numeric_limits<double>::infinity()) << std::endl;
 
     std::vector<Monkey> monkeys = parseMonkeys();
     for (Monkey &monkey : monkeys) {
